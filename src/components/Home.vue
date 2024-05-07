@@ -60,6 +60,11 @@
           />
         </v-col>
       </v-row>
+
+      <div class="text-center">        
+        Reference <br/>
+        https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want
+      </div>
     </v-responsive>
   </v-container>
 </template>
