@@ -1,13 +1,15 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="align-centerfill-height mx-auto" max-width="1200">
+      <v-divider :thickness="1" class="my-4"></v-divider>
+
       <div class="text-center">
         <h1 class="text-h2 font-weight-bold">Strategic Life Portfolio</h1>
       </div>
 
-      <div class="py-4" />
+      <v-divider :thickness="1" class="my-4"></v-divider>
 
-      <v-row>
+      <v-row>        
         <v-col cols="6">
           <v-card
             class="py-4"
@@ -61,10 +63,17 @@
         </v-col>
       </v-row>
 
-      <div class="text-center">        
-        Reference <br/>
-        https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want
+      <v-divider :thickness="1" class="my-4"></v-divider>
+
+      <div class="text-center font-italic">        
+        Read More:
+        <a href="https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want">
+          https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want
+        </a>
       </div>
+
+      <v-divider :thickness="1" class="my-4"></v-divider>
+      
     </v-responsive>
   </v-container>
 </template>
