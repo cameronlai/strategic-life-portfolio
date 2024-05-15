@@ -346,8 +346,8 @@ export default {
           area: "6. Personal care",
           unit: "Physiological needs",
           description: "Eating, sleeping",
-          importance: 5,
-          satisfaction: 2,
+          importance: 2,
+          satisfaction: 5,
           time: 5,
         },
         {
@@ -355,8 +355,8 @@ export default {
           area: "6. Personal care",
           unit: "Activities of daily living",
           description: "Commuting, housework",
-          importance: 3,
-          satisfaction: 1,
+          importance: 1,
+          satisfaction: 3,
           time: 5,
         },
       ], // End of lifeData
@@ -480,7 +480,7 @@ export default {
         let item = this.tableData[i];
         console.log(item);
         datasets.push({
-          label: item.area,
+          label: [item.area, item.unit],
           backgroundColor: colors[item.areaNum - 1],
           data: [
             {
