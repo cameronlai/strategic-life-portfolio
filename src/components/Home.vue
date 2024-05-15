@@ -7,12 +7,12 @@
       </div>
       <v-divider :thickness="1" class="my-4"></v-divider>
       <v-row justify="center">
-      <br>
-      Visualize your life portfolio in the 2x2 Life Portfolio
+        <br />
+        Visualize your life portfolio in the 2x2 Life Portfolio
       </v-row>
 
       <v-row justify="center">
-        <v-col cols="6">
+        <v-col cols="8">
           <Bubble
             :data="chartData"
             :labels="chartLabels"
@@ -20,8 +20,8 @@
           />
         </v-col>
       </v-row>
-      <v-row>
-        <v-col cols="12">
+      <v-row justify="center">
+        <v-col cols="10">
           <v-card
             class="py-4"
             prepend-icon="mdi-text-box-outline"
@@ -216,24 +216,147 @@ export default {
       ],
       tableData: [
         {
+          areaNum: 1,
           area: "1. Relationships",
           unit: "Significant other",
-          importance: 10,
-          satisfaction: 8,
+          description: "Time with partner, dates",
+          importance: 1,
+          satisfaction: 1,
+          time: 1,
+        },
+        {
+          areaNum: 1,
+          area: "1. Relationships",
+          unit: "Family",
+          description: "Engaging with kids, parents, siblings",
+          importance: 2,
+          satisfaction: 2,
+          time: 2,
+        },
+        {
+          areaNum: 1,
+          area: "1. Relationships",
+          unit: "Family",
+          description: "Engaging with kids, parents, siblings",
+          importance: 3,
+          satisfaction: 3,
           time: 3,
         },
         {
+          areaNum: 2,
           area: "2. Body, mind, spirituality",
-          unit: "Significant other",
-          importance: 3,
-          satisfaction: 6,
-          time: 24,
+          unit: "Physical health/sports ",
+          description: "Exercise, physical therapy",
+          importance: 4,
+          satisfaction: 4,
+          time: 4,
         },
         {
+          areaNum: 2,
+          area: "2. Body, mind, spirituality",
+          unit: "Mental health/mindfulness ",
+          description: "Psychotherapy, meditation",
+          importance: 5,
+          satisfaction: 5,
+          time: 5,
+        },
+        {
+          areaNum: 2,
+          area: "2. Body, mind, spirituality",
+          unit: "Spirituality/faith",
+          description: "Religious practice",
+          importance: 6,
+          satisfaction: 6,
+          time: 6,
+        },
+        {
+          areaNum: 3,
           area: "3. Community and society",
           unit: "Community/citizenship",
+          description: "Membership in local clubs, jury duty",
+          importance: 7,
+          satisfaction: 7,
+          time: 7,
+        },
+        {
+          areaNum: 3,
+          area: "3. Community and society",
+          unit: "Societal engagement",
+          description: "Volunteering, activism",
+          importance: 8,
+          satisfaction: 8,
+          time: 8,
+        },
+        {
+          areaNum: 4,
+          area: "4. Job, learning, and finances",
+          unit: "Job/career",
+          description: "Work",
+          importance: 9,
+          satisfaction: 1,
+          time: 9,
+        },
+        {
+          areaNum: 4,
+          area: "4. Job, learning, and finances",
+          unit: "Education/learning",
+          description: "Classes, training",
+          importance: 9,
+          satisfaction: 2,
+          time: 9,
+        },
+        {
+          areaNum: 4,
+          area: "4. Job, learning, and finances",
+          unit: "Finances",
+          description: "Planning, investing",
           importance: 5,
           satisfaction: 2,
+          time: 5,
+        },
+        {
+          areaNum: 5,
+          area: "5. Interests and entertainment",
+          unit: "Hobbies/interests",
+          description: "Reading, collectibles",
+          importance: 9,
+          satisfaction: 3,
+          time: 9,
+        },
+        {
+          areaNum: 5,
+          area: "5. Interests and entertainment",
+          unit: "Online entertainment",
+          description: "Social media, TV, gaming",
+          importance: 7,
+          satisfaction: 1,
+          time: 5,
+        },
+        {
+          areaNum: 5,
+          area: "5. Interests and entertainment",
+          unit: "Offline entertainment",
+          description: "Vacations, theater, sporting events",
+          importance: 5,
+          satisfaction: 1,
+          time: 5,
+        },
+        {
+          areaNum: 6,
+          area: "6. Personal care",
+          unit: "Physiological needs",
+          description: "Eating, sleeping",
+          importance: 5,
+          satisfaction: 2,
+          time: 5,
+        },
+        {
+          areaNum: 6,
+          area: "6. Personal care",
+          unit: "Activities of daily living",
+          description: "Commuting, housework",
+          importance: 3,
+          satisfaction: 1,
           time: 5,
         },
       ], // End of lifeData
@@ -278,6 +401,11 @@ export default {
       chartOptions: {
         responsive: true,
         maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: "right",
+          },
+        },
       }, // End of graphOptions
     };
   },
@@ -340,13 +468,20 @@ export default {
       this.chartData.datasets = [];
       let datasets = [];
       console.log(this.tableData);
-      const color = ["#9b42f5", "#f87979", "#7C8CF8"];
+      const colors = [
+        "#f96b5c", // Red
+        "#7C8CF8", // Blue
+        "#F9DC5C", // Yellow
+        "#7CF997", // Green
+        "#9b42f5", // Purple
+        "#808080", // Grey
+      ];
       for (let i = 0; i < this.tableData.length; i++) {
         let item = this.tableData[i];
         console.log(item);
         datasets.push({
           label: item.area,
-          backgroundColor: color[i],
+          backgroundColor: colors[item.areaNum - 1],
           data: [
             {
               x: item.satisfaction,
