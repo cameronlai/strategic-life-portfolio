@@ -2,15 +2,26 @@
   <v-container class="fill-height">
     <v-responsive class="align-centerfill-height mx-auto" max-width="1200">
       <v-divider :thickness="1" class="my-4"></v-divider>
-
       <div class="text-center">
         <h1 class="text-h2 font-weight-bold">Strategic Life Portfolio</h1>
       </div>
-
       <v-divider :thickness="1" class="my-4"></v-divider>
+      <v-row justify="center">
+      <br>
+      Visualize your life portfolio in the 2x2 Life Portfolio
+      </v-row>
 
+      <v-row justify="center">
+        <v-col cols="6">
+          <Bubble
+            :data="chartData"
+            :labels="chartLabels"
+            :options="chartOptions"
+          />
+        </v-col>
+      </v-row>
       <v-row>
-        <v-col cols="7">
+        <v-col cols="12">
           <v-card
             class="py-4"
             prepend-icon="mdi-text-box-outline"
@@ -130,23 +141,6 @@
             </v-data-table>
           </v-card>
         </v-col>
-        <v-col cols="5">
-          <v-card
-            class="py-4"
-            prepend-icon="mdi-eye-outline"
-            rounded="lg"
-            subtitle="Visualize your life portfolio in this graph"
-            title="2x2 Life Portfolio"
-            variant="text"
-          >
-          </v-card>
-          <Bubble
-            :data="chartData"
-            :labels="chartLabels"
-            :options="chartOptions"
-            hei
-          />
-        </v-col>
       </v-row>
 
       <v-divider :thickness="1" class="my-4"></v-divider>
@@ -164,6 +158,12 @@
     </v-responsive>
   </v-container>
 </template>
+
+<style scoped>
+.bubble-chart {
+  height: 200px;
+}
+</style>
 
 <script setup lang="ts">
 import {
@@ -341,7 +341,7 @@ export default {
       let datasets = [];
       console.log(this.tableData);
       const color = ["#9b42f5", "#f87979", "#7C8CF8"];
-      for (let i = 0; i < this.tableData.length; i++) {        
+      for (let i = 0; i < this.tableData.length; i++) {
         let item = this.tableData[i];
         console.log(item);
         datasets.push({
@@ -357,8 +357,8 @@ export default {
         });
       }
       this.chartData = {
-        datasets: datasets
-      }
+        datasets: datasets,
+      };
     },
   },
 };
