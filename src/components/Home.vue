@@ -360,9 +360,17 @@ export default {
           time: 5,
         },
       ], // End of lifeData
-      chartLabels: ["Data One", "Data Two"],
+      chartLabels: [
+        "1. Relationships",
+        "2. Body, mind, spirituality",
+        "3. Community and society",
+        "4. Job, learning, and finances",
+        "5. Interests and entertainment",
+        "6. Personal care",
+      ],
       chartData: {
-        datasets: [
+        datasets: [],
+        /* Example of dataset
           {
             label: "1. Relationships",
             backgroundColor: "#f87979",
@@ -374,36 +382,33 @@ export default {
               },
             ],
           },
-          {
-            label: "2. Body, mind, spirituality",
-            backgroundColor: "#7C8CF8",
-            data: [
-              {
-                x: 10,
-                y: 30,
-                r: 15,
-              },
-            ],
-          },
-          {
-            label: "3. Community and society",
-            backgroundColor: "#9b42f5",
-            data: [
-              {
-                x: 10,
-                y: 2,
-                r: 15,
-              },
-            ],
-          },
-        ],
+          */      
       }, // End of graph data
       chartOptions: {
+        // Custom legend with distinct items only, no need to repeat
+
         responsive: true,
         maintainAspectRatio: true,
+        // boxwidth that is wider
         plugins: {
           legend: {
             position: "right",
+            display: true,
+            labels: {
+              font: {
+                size: 10,
+              },
+              filter: function (legendItem, chartData) {
+                const firstIndex = chartData.datasets.findIndex(
+                  (d) => d.label[0] === legendItem.text[0]
+                );
+                if (legendItem.datasetIndex === firstIndex) {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
+            },
           },
         },
       }, // End of graphOptions
