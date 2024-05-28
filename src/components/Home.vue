@@ -6,18 +6,22 @@
         <h1 class="text-h2 font-weight-bold">Strategic Life Portfolio</h1>
       </div>
       <v-divider :thickness="1" class="my-4"></v-divider>
-      <v-row justify="center">
-        <br />
-        Visualize your life portfolio in the 2x2 Life Portfolio
+      <v-row class="mt-5" justify="center">
+        <h3>Visualize your life portfolio in the 2x2 Life Portfolio</h3>
       </v-row>
-
-      <v-row justify="center">
+      <v-row class="my-4" justify="center">
         <v-col cols="8">
           <Bubble
+            id="bubbleChart"
             :data="chartData"
             :labels="chartLabels"
             :options="chartOptions"
           />
+        </v-col>
+        <v-col cols="1">
+          <v-btn class="my-2" variant="tonal" @click="shareClick">
+            Share
+          </v-btn>
         </v-col>
       </v-row>
       <v-row justify="center">
@@ -382,7 +386,7 @@ export default {
               },
             ],
           },
-          */      
+          */
       }, // End of graph data
       chartOptions: {
         // Custom legend with distinct items only, no need to repeat
@@ -450,7 +454,6 @@ export default {
         this.editedIndex = -1;
       });
     },
-
     closeDelete() {
       this.dialogDelete = false;
       this.$nextTick(() => {
@@ -458,7 +461,6 @@ export default {
         this.editedIndex = -1;
       });
     },
-
     save() {
       if (this.editedIndex > -1) {
         Object.assign(this.tableData[this.editedIndex], this.editedItem);
@@ -468,11 +470,9 @@ export default {
       this.close();
       this.updateChart();
     },
-
     updateChart() {
       this.chartData.datasets = [];
       let datasets = [];
-      console.log(this.tableData);
       const colors = [
         "#f96b5c", // Red
         "#7C8CF8", // Blue
@@ -499,6 +499,15 @@ export default {
       this.chartData = {
         datasets: datasets,
       };
+    },
+    // on click this function, image will be downloaded at client side in chartjs
+    shareClick() {
+      const canvas = document.getElementById("bubbleChart");
+      const dataURL = canvas.toDataURL("image/png", 1.0);
+      const link = document.createElement("a");
+      link.download = "chart.png";
+      link.href = dataURL;
+      link.click();
     },
   },
 };
