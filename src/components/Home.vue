@@ -238,15 +238,6 @@ export default {
           time: 2,
         },
         {
-          areaNum: 1,
-          area: "1. Relationships",
-          unit: "Family",
-          description: "Engaging with kids, parents, siblings",
-          importance: 3,
-          satisfaction: 3,
-          time: 3,
-        },
-        {
           areaNum: 2,
           area: "2. Body, mind, spirituality",
           unit: "Physical health/sports ",
@@ -390,7 +381,6 @@ export default {
       }, // End of graph data
       chartOptions: {
         // Custom legend with distinct items only, no need to repeat
-
         responsive: true,
         maintainAspectRatio: true,
         // boxwidth that is wider
@@ -411,6 +401,23 @@ export default {
                 } else {
                   return false;
                 }
+              },
+            },
+          },
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              label: function (context) {
+                console.log("here");
+                console.log(context);
+                let label = context.dataset.label || "";
+                return [
+                  `Area: ${label[0]}`,
+                  `Unit: ${label[1]}`,
+                  `Importantce: ${context.raw.y}`,
+                  `Satisfaction: ${context.raw.x}`,
+                  `Time: ${context.raw.r} hours`,
+                ];
               },
             },
           },
@@ -486,6 +493,7 @@ export default {
         console.log(item);
         datasets.push({
           label: [item.area, item.unit],
+          //label: item.area,
           backgroundColor: colors[item.areaNum - 1],
           data: [
             {
