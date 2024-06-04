@@ -403,12 +403,13 @@ export default {
             callbacks: {
               label: function (context) {
                 let label = context.dataset.label || "";
+                let hours = context.raw.r / 4;
                 return [
                   `Area: ${label[0]}`,
                   `Unit: ${label[1]}`,
                   `Importantce: ${context.raw.y}`,
                   `Satisfaction: ${context.raw.x}`,
-                  `Time: ${context.raw.r} hours`,
+                  `Time: ${hours} hours`,
                 ];
               },
             },
@@ -443,6 +444,7 @@ export default {
     deleteItemConfirm() {
       this.tableData.splice(this.editedIndex, 1);
       this.closeDelete();
+      this.updateChart();
     },
 
     close() {
@@ -460,21 +462,15 @@ export default {
       });
     },
     save() {
-      console.log(this.editedItem);
-      console.log(this.editedIndex);
-      console.log(this.tableData);
       if (this.editedIndex > -1) {
         Object.assign(this.tableData[this.editedIndex], this.editedItem);
       } else {
-        console.log("here");
         this.tableData.push(this.editedItem);
       }
-      console.log(this.tableData);
       this.close();
       this.updateChart();
     },
     updateChart() {
-      console.log(this.tableData);
       this.chartData.datasets = [];
       let datasets = [];
       const colors = [
@@ -495,7 +491,7 @@ export default {
             {
               x: item.satisfaction,
               y: item.importance,
-              r: item.time,
+              r: item.time * 4,
             },
           ],
         });
