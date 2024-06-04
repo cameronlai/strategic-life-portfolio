@@ -44,8 +44,39 @@
                 <v-toolbar flat>
                   <v-dialog v-model="dialog" max-width="800">
                     <template v-slot:activator="{ props }">
-                      <v-btn class="mb-2" color="primary" dark v-bind="props">
+                      <v-btn
+                        class="mb-2 mx-5"
+                        color="primary"
+                        variant="outlined"
+                        dark
+                        v-bind="props"
+                      >
                         New Item
+                      </v-btn>
+                      <v-btn
+                        class="mb-2 mx-5"
+                        color="primary"
+                        variant="outlined"
+                        dark
+                        @click="resetData"
+                      >
+                        Reset
+                      </v-btn>
+                      <v-btn
+                        class="mb-2 mx-5"
+                        color="primary"
+                        variant="outlined"
+                        dark
+                      >
+                        Import CSV
+                      </v-btn>
+                      <v-btn
+                        class="mb-2 mx-5"
+                        color="primary"
+                        variant="outlined"
+                        dark
+                      >
+                        Download CSV Template
                       </v-btn>
                     </template>
                     <v-card>
@@ -214,7 +245,8 @@ export default {
         { title: "Time (hours)", key: "time" },
         { title: "Actions", key: "actions", sortable: false },
       ],
-      tableData: [
+      tableData: [],
+      tableDataOriginal: [
         {
           area: "1. Relationships",
           unit: "Significant other",
@@ -427,9 +459,14 @@ export default {
     },
   },
   created() {
-    this.updateChart();
+    this.resetData();
   },
   methods: {
+    resetData() {
+      //this.tableData = this.tableDataOriginal;
+      this.tableData = this.tableDataOriginal.map(x => x);
+      this.updateChart();
+    },
     editItem(item) {
       this.editedIndex = this.tableData.indexOf(item);
       this.editedItem = Object.assign({}, item);
