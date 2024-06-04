@@ -42,7 +42,7 @@
             >
               <template v-slot:top>
                 <v-toolbar flat>
-                  <v-dialog v-model="dialog" max-width="500px">
+                  <v-dialog v-model="dialog" max-width="800">
                     <template v-slot:activator="{ props }">
                       <v-btn class="mb-2" color="primary" dark v-bind="props">
                         New Item
@@ -52,31 +52,32 @@
                       <v-card-text>
                         <v-container>
                           <v-row>
-                            <v-col cols="12" md="4" sm="6">
-                              <v-text-field
-                                v-model="editedItem.area"
+                            <v-col cols="12" md="6" sm="6">
+                              <v-select
                                 label="Area"
-                              ></v-text-field>
+                                v-model="editedItem.area"
+                                :items="chartLabels.map((x) => x.label)"
+                              ></v-select>
                             </v-col>
-                            <v-col cols="12" md="4" sm="6">
+                            <v-col cols="12" md="6" sm="6">
                               <v-text-field
                                 v-model="editedItem.unit"
                                 label="Unit"
                               ></v-text-field>
                             </v-col>
-                            <v-col cols="12" md="4" sm="6">
+                            <v-col cols="12" md="4" sm="4">
                               <v-text-field
                                 v-model="editedItem.importance"
                                 label="Importance"
                               ></v-text-field>
                             </v-col>
-                            <v-col cols="12" md="4" sm="6">
+                            <v-col cols="12" md="4" sm="4">
                               <v-text-field
                                 v-model="editedItem.satisfaction"
                                 label="Satisfaction"
                               ></v-text-field>
                             </v-col>
-                            <v-col cols="12" md="4" sm="6">
+                            <v-col cols="12" md="4" sm="4">
                               <v-text-field
                                 v-model="editedItem.time"
                                 label="Time (hours)"
@@ -206,12 +207,7 @@ export default {
         time: 0,
       },
       tableHeaders: [
-        {
-          title: "Area",
-          align: "start",
-          sortable: false,
-          key: "area",
-        },
+        { title: "Area", key: "area", align: "start" },
         { title: "Unit", key: "unit" },
         { title: "Importance", key: "importance" },
         { title: "Satisfaction", key: "satisfaction" },
@@ -220,7 +216,6 @@ export default {
       ],
       tableData: [
         {
-          areaNum: 1,
           area: "1. Relationships",
           unit: "Significant other",
           description: "Time with partner, dates",
@@ -229,7 +224,6 @@ export default {
           time: 1,
         },
         {
-          areaNum: 1,
           area: "1. Relationships",
           unit: "Family",
           description: "Engaging with kids, parents, siblings",
@@ -238,7 +232,6 @@ export default {
           time: 2,
         },
         {
-          areaNum: 2,
           area: "2. Body, mind, spirituality",
           unit: "Physical health/sports ",
           description: "Exercise, physical therapy",
@@ -247,7 +240,6 @@ export default {
           time: 4,
         },
         {
-          areaNum: 2,
           area: "2. Body, mind, spirituality",
           unit: "Mental health/mindfulness ",
           description: "Psychotherapy, meditation",
@@ -256,7 +248,6 @@ export default {
           time: 5,
         },
         {
-          areaNum: 2,
           area: "2. Body, mind, spirituality",
           unit: "Spirituality/faith",
           description: "Religious practice",
@@ -265,7 +256,6 @@ export default {
           time: 6,
         },
         {
-          areaNum: 3,
           area: "3. Community and society",
           unit: "Community/citizenship",
           description: "Membership in local clubs, jury duty",
@@ -274,7 +264,6 @@ export default {
           time: 7,
         },
         {
-          areaNum: 3,
           area: "3. Community and society",
           unit: "Societal engagement",
           description: "Volunteering, activism",
@@ -283,7 +272,6 @@ export default {
           time: 8,
         },
         {
-          areaNum: 4,
           area: "4. Job, learning, and finances",
           unit: "Job/career",
           description: "Work",
@@ -292,7 +280,6 @@ export default {
           time: 9,
         },
         {
-          areaNum: 4,
           area: "4. Job, learning, and finances",
           unit: "Education/learning",
           description: "Classes, training",
@@ -301,7 +288,6 @@ export default {
           time: 9,
         },
         {
-          areaNum: 4,
           area: "4. Job, learning, and finances",
           unit: "Finances",
           description: "Planning, investing",
@@ -310,7 +296,6 @@ export default {
           time: 5,
         },
         {
-          areaNum: 5,
           area: "5. Interests and entertainment",
           unit: "Hobbies/interests",
           description: "Reading, collectibles",
@@ -319,7 +304,6 @@ export default {
           time: 9,
         },
         {
-          areaNum: 5,
           area: "5. Interests and entertainment",
           unit: "Online entertainment",
           description: "Social media, TV, gaming",
@@ -328,7 +312,6 @@ export default {
           time: 5,
         },
         {
-          areaNum: 5,
           area: "5. Interests and entertainment",
           unit: "Offline entertainment",
           description: "Vacations, theater, sporting events",
@@ -337,7 +320,6 @@ export default {
           time: 5,
         },
         {
-          areaNum: 6,
           area: "6. Personal care",
           unit: "Physiological needs",
           description: "Eating, sleeping",
@@ -346,7 +328,6 @@ export default {
           time: 5,
         },
         {
-          areaNum: 6,
           area: "6. Personal care",
           unit: "Activities of daily living",
           description: "Commuting, housework",
@@ -356,12 +337,30 @@ export default {
         },
       ], // End of lifeData
       chartLabels: [
-        "1. Relationships",
-        "2. Body, mind, spirituality",
-        "3. Community and society",
-        "4. Job, learning, and finances",
-        "5. Interests and entertainment",
-        "6. Personal care",
+        {
+          label: "1. Relationships",
+          color: "#f96b5c",
+        },
+        {
+          label: "2. Body, mind, spirituality",
+          color: "#7C8CF8",
+        },
+        {
+          label: "3. Community and society",
+          color: "#F9DC5C",
+        },
+        {
+          label: "4. Job, learning, and finances",
+          color: "#7CF997",
+        },
+        {
+          label: "5. Interests and entertainment",
+          color: "#9b42f5",
+        },
+        {
+          label: "6. Personal care",
+          color: "#808080",
+        },
       ],
       chartData: {
         datasets: [],
@@ -386,21 +385,16 @@ export default {
         // boxwidth that is wider
         plugins: {
           legend: {
-            position: "right",
+            position: "bottom",
             display: true,
+            onClick: (e) => {},
             labels: {
-              font: {
-                size: 10,
-              },
-              filter: function (legendItem, chartData) {
-                const firstIndex = chartData.datasets.findIndex(
-                  (d) => d.label[0] === legendItem.text[0]
-                );
-                if (legendItem.datasetIndex === firstIndex) {
-                  return true;
-                } else {
-                  return false;
-                }
+              generateLabels: (chart) => {
+                return this.chartLabels.map((x, i) => ({
+                  text: `${x.label}`,
+                  fillStyle: `${x.color}`,
+                  index: i,
+                }));
               },
             },
           },
@@ -408,8 +402,6 @@ export default {
             enabled: true,
             callbacks: {
               label: function (context) {
-                console.log("here");
-                console.log(context);
                 let label = context.dataset.label || "";
                 return [
                   `Area: ${label[0]}`,
@@ -442,7 +434,6 @@ export default {
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
-
     deleteItem(item) {
       this.editedIndex = this.tableData.indexOf(item);
       this.editedItem = Object.assign({}, item);
@@ -469,15 +460,21 @@ export default {
       });
     },
     save() {
+      console.log(this.editedItem);
+      console.log(this.editedIndex);
+      console.log(this.tableData);
       if (this.editedIndex > -1) {
         Object.assign(this.tableData[this.editedIndex], this.editedItem);
       } else {
+        console.log("here");
         this.tableData.push(this.editedItem);
       }
+      console.log(this.tableData);
       this.close();
       this.updateChart();
     },
     updateChart() {
+      console.log(this.tableData);
       this.chartData.datasets = [];
       let datasets = [];
       const colors = [
@@ -490,11 +487,10 @@ export default {
       ];
       for (let i = 0; i < this.tableData.length; i++) {
         let item = this.tableData[i];
-        console.log(item);
+        let chartLabelIndex = parseInt(item.area.slice(0, 1)) - 1;
         datasets.push({
           label: [item.area, item.unit],
-          //label: item.area,
-          backgroundColor: colors[item.areaNum - 1],
+          backgroundColor: this.chartLabels[chartLabelIndex].color,
           data: [
             {
               x: item.satisfaction,
