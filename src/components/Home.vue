@@ -67,16 +67,24 @@
                         color="primary"
                         variant="outlined"
                         dark
+                        @click="importCsv"
                       >
                         Import CSV
                       </v-btn>
+                      <input
+                        ref="uploader"
+                        class="d-none"
+                        type="file"
+                        @change="onImportCsvChanged"
+                      />
                       <v-btn
                         class="mb-2 mx-5"
                         color="primary"
                         variant="outlined"
                         dark
+                        @click="downloadCsvTemplate"
                       >
-                        Download CSV Template
+                        Download CSV
                       </v-btn>
                     </template>
                     <v-card>
@@ -214,12 +222,15 @@ ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
 <script lang="ts">
 import { Bubble } from "vue-chartjs";
+import Papa from "papaparse";
+
 // https://vuetifyjs.com/en/components/data-tables/basics/#crud-actions
 export default {
   name: "App",
   components: { Bubble },
   data() {
     return {
+      // Edit Dialog Handling
       dialog: false,
       dialogDelete: false,
       editedIndex: -1,
@@ -237,6 +248,10 @@ export default {
         satisfaction: 0,
         time: 0,
       },
+      // Import CSV Variables
+      isSelectingFile: false,
+      selectedFile: null,
+      // Table Data Handling
       tableHeaders: [
         { title: "Area", key: "area", align: "start" },
         { title: "Unit", key: "unit" },
@@ -368,6 +383,7 @@ export default {
           time: 5,
         },
       ], // End of lifeData
+      // Chart variables
       chartLabels: [
         {
           label: "1. Relationships",
@@ -463,9 +479,50 @@ export default {
   },
   methods: {
     resetData() {
-      //this.tableData = this.tableDataOriginal;
-      this.tableData = this.tableDataOriginal.map(x => x);
+      this.tableData = this.tableDataOriginal.map((x) => x);
       this.updateChart();
+    },
+    onImportCsvChanged(e) {
+      this.selectedFile = e.target.files[0];
+
+      Papa.parse(this.selectedFile, {
+        header: true,
+        transformHeader: (header) => header.trim().toLowerCase().replace(" (hours)", ""),
+        complete: (results) => {
+          console.log(results);
+          this.tableData = results.data.map((x) => x);
+          this.updateChart();
+        },
+      });
+    },
+    importCsv() {
+      this.isSelecting = true;
+      // After obtaining the focus when closing the FilePicker, return the button state to normal
+      window.addEventListener("focus",() => {this.isSelecting = false;},{ once: true });
+      // Trigger click on the FileInput
+      this.$refs.uploader.click();
+    },
+    downloadCsvTemplate() {
+      // write code to generate csv template from this.tableHeader and this.tableData and download it in client side, string comma handled
+      const csvContent =
+        "data:text/csv;charset=utf-8," +
+        this.tableHeaders
+          .slice(0, -1)
+          .map((header) => `"${header.title}"`)
+          .join(",") +
+        "\n" +
+        this.tableData
+          .map(
+            (item) =>
+              `"${item.area}","${item.unit}",${item.importance},${item.satisfaction},${item.time}`
+          )
+          .join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "strategic_life_portfolio_template.csv");
+      document.body.appendChild(link);
+      link.click();
     },
     editItem(item) {
       this.editedIndex = this.tableData.indexOf(item);
@@ -520,6 +577,7 @@ export default {
       ];
       for (let i = 0; i < this.tableData.length; i++) {
         let item = this.tableData[i];
+        console.log(item);        
         let chartLabelIndex = parseInt(item.area.slice(0, 1)) - 1;
         datasets.push({
           label: [item.area, item.unit],
