@@ -105,16 +105,28 @@
                               ></v-text-field>
                             </v-col>
                             <v-col cols="12" md="4" sm="4">
-                              <v-text-field
+                              <v-select
                                 v-model="editedItem.importance"
                                 label="Importance"
-                              ></v-text-field>
+                                :items="
+                                  Array.from(
+                                    { length: 10 },
+                                    (_, index) => index + 1
+                                  )
+                                "
+                              ></v-select>
                             </v-col>
                             <v-col cols="12" md="4" sm="4">
-                              <v-text-field
+                              <v-select
                                 v-model="editedItem.satisfaction"
                                 label="Satisfaction"
-                              ></v-text-field>
+                                :items="
+                                  Array.from(
+                                    { length: 10 },
+                                    (_, index) => index + 1
+                                  )
+                                "
+                              ></v-select>
                             </v-col>
                             <v-col cols="12" md="4" sm="4">
                               <v-text-field
@@ -255,8 +267,8 @@ export default {
       tableHeaders: [
         { title: "Area", key: "area", align: "start" },
         { title: "Unit", key: "unit" },
-        { title: "Importance", key: "importance" },
-        { title: "Satisfaction", key: "satisfaction" },
+        { title: "Importance (1 - 10)", key: "importance" },
+        { title: "Satisfaction (1 - 10)", key: "satisfaction" },
         { title: "Time (hours)", key: "time" },
         { title: "Actions", key: "actions", sortable: false },
       ],
@@ -430,8 +442,50 @@ export default {
         // Custom legend with distinct items only, no need to repeat
         responsive: true,
         maintainAspectRatio: true,
-        // boxwidth that is wider
+        // Styling
+        borderColor: "#fffff",
+        borderWidth: 1,
+        // write x and y axex labels as satisfaction and importance with min -1 and max as 11
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: "Satisfaction",
+            },
+            min: 0,
+            max: 11,
+            // Add ticks from 0 to 10 with step size of 1 only
+            ticks: {
+              callback: function (value, index, values) {
+                if (value > 0 && value <= 10) {
+                  return value;
+                }
+              },
+              stepSize: 1,
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: "Importance",
+            },
+            min: 0,
+            max: 11,
+            ticks: {
+              callback: function (value, index, values) {
+                if (value > 0 && value <= 10) {
+                  return value;
+                }
+              },
+              stepSize: 1,
+            },
+          },
+        },
+
         plugins: {
+          customCanvasBackgroundColor: {
+            color: "white",
+          },
           legend: {
             position: "bottom",
             display: true,
@@ -487,10 +541,24 @@ export default {
 
       Papa.parse(this.selectedFile, {
         header: true,
-        transformHeader: (header) => header.trim().toLowerCase().replace(" (hours)", ""),
+        transformHeader: (header) =>
+          header
+            .trim()
+            .toLowerCase()
+            .replace(" (hours)", "")
+            .replace(" (1 - 10)", ""),
         complete: (results) => {
           console.log(results);
-          this.tableData = results.data.map((x) => x);
+          this.tableData = results.data.map((x) => {
+            // check if the data is valid and in range of 1 - 10 for importance and satisfaction, if not set as 1
+            if (x.importance < 1 || x.importance > 10) {
+              x.importance = 1;
+            }
+            if (x.satisfaction < 1 || x.satisfaction > 10) {
+              x.satisfaction = 1;
+            }
+            return x;
+          });
           this.updateChart();
         },
       });
@@ -498,7 +566,13 @@ export default {
     importCsv() {
       this.isSelecting = true;
       // After obtaining the focus when closing the FilePicker, return the button state to normal
-      window.addEventListener("focus",() => {this.isSelecting = false;},{ once: true });
+      window.addEventListener(
+        "focus",
+        () => {
+          this.isSelecting = false;
+        },
+        { once: true }
+      );
       // Trigger click on the FileInput
       this.$refs.uploader.click();
     },
@@ -577,7 +651,7 @@ export default {
       ];
       for (let i = 0; i < this.tableData.length; i++) {
         let item = this.tableData[i];
-        console.log(item);        
+        console.log(item);
         let chartLabelIndex = parseInt(item.area.slice(0, 1)) - 1;
         datasets.push({
           label: [item.area, item.unit],
