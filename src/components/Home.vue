@@ -39,6 +39,7 @@
               :items="tableData"
               :sort-by="[{ key: 'area', order: 'asc' }]"
               class="text-caption"
+              items-per-page="50"
             >
               <template v-slot:top>
                 <v-toolbar flat>
@@ -235,7 +236,7 @@ ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 import { Bubble } from "vue-chartjs";
 import Papa from "papaparse";
 
-// https://vuetifyjs.com/en/components/data-tables/basics/#crud-actions
+// References: https://vuetifyjs.com/en/components/data-tables/basics/#crud-actions
 export default {
   name: "App",
   components: { Bubble },
@@ -398,27 +399,27 @@ export default {
       chartLabels: [
         {
           label: "Relationships",
-          color: "#f96b5c",
+          color: "f96b5c",
         },
         {
           label: "Body, mind, spirituality",
-          color: "#7C8CF8",
+          color: "7C8CF8",
         },
         {
           label: "Community and society",
-          color: "#F9DC5C",
+          color: "F9DC5C",
         },
         {
           label: "Job, learning, and finances",
-          color: "#7CF997",
+          color: "7CF997",
         },
         {
           label: "Interests and entertainment",
-          color: "#9b42f5",
+          color: "9b42f5",
         },
         {
           label: "Personal care",
-          color: "#808080",
+          color: "808080",
         },
       ],
       chartData: {
@@ -442,8 +443,8 @@ export default {
         responsive: true,
         maintainAspectRatio: true,
         // Styling
-        borderColor: "#fffff",
-        borderWidth: 1,
+        borderColor: "#80fffff",
+        borderWidth: 0.25,
         // write x and y axex labels as satisfaction and importance with min -1 and max as 11
         scales: {
           x: {
@@ -646,18 +647,18 @@ export default {
     updateChart() {
       this.chartData.datasets = [];
       const datasets = [] as {
-        label: string[];
-        backgroundColor: string;
+        label: string[];        
         data: { x: number; y: number; r: number }[];
+        backgroundColor: string;
       }[];
       for (let i = 0; i < this.tableData.length; i++) {
         let item = this.tableData[i];
         const colorCode = this.chartLabels.find(
           (x) => x.label === item.area
         ).color;
+        const opacityCode = "80";
         datasets.push({
           label: [item.area, item.unit],
-          backgroundColor: colorCode,
           data: [
             {
               x: item.satisfaction,
@@ -665,6 +666,7 @@ export default {
               r: item.time * 4,
             },
           ],
+          backgroundColor: `#${opacityCode}${colorCode}`,
         });
       }
       this.chartData = {
