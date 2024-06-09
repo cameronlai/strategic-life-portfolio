@@ -184,13 +184,33 @@
                   </v-dialog>
                 </v-toolbar>
               </template>
-              <template v-slot:item.actions="{ item }">
-                <v-icon class="me-2" size="small" @click="editItem(item)">
-                  mdi-pencil
-                </v-icon>
-                <v-icon size="small" @click="deleteItem(item)">
-                  mdi-delete
-                </v-icon>
+              <template v-slot:item="{ item }">
+                <!-- write tr with background inline colour of orange, don't call getRowClass function-->
+                <tr :style="{ backgroundColor: getRowColor(item.area) }">
+                  <td>
+                    {{ item.area }}
+                  </td>
+                  <td>
+                    {{ item.unit }}
+                  </td>
+                  <td>
+                    {{ item.importance }}
+                  </td>
+                  <td>
+                    {{ item.satisfaction }}
+                  </td>
+                  <td>
+                    {{ item.time }}
+                  </td>
+                  <td>
+                    <v-icon class="me-2" size="small" @click="editItem(item)">
+                      mdi-pencil
+                    </v-icon>
+                    <v-icon size="small" @click="deleteItem(item)">
+                      mdi-delete
+                    </v-icon>
+                  </td>
+                </tr>
               </template>
             </v-data-table>
           </v-card>
@@ -490,7 +510,7 @@ export default {
               generateLabels: (chart) => {
                 return this.chartLabels.map((x, i) => ({
                   text: `${x.label}`,
-                  fillStyle: `${x.color}`,
+                  fillStyle: this.getRowColorString(x.label, 0.6),
                   index: i,
                 }));
               },
@@ -650,10 +670,6 @@ export default {
       }[];
       for (let i = 0; i < this.tableData.length; i++) {
         let item = this.tableData[i];
-        const colorCode = this.chartLabels
-          .find((x) => x.label === item.area)
-          .color.join(",");
-        const opacityCode = 0.6;
         datasets.push({
           label: [item.area, item.unit],
           data: [
@@ -663,7 +679,7 @@ export default {
               r: item.time * 4,
             },
           ],
-          backgroundColor: `rgba(${colorCode},${opacityCode})`,
+          backgroundColor: this.getRowColorString(item.area, 0.6),
         });
       }
       this.chartData = {
@@ -678,6 +694,13 @@ export default {
       link.download = "chart.png";
       link.href = dataURL;
       link.click();
+    },
+    getRowColor(area) {
+      return this.getRowColorString(area, 0.3);
+    },
+    getRowColorString(area, opacity) {
+      const colorCode = this.chartLabels.find((x) => x.label === area).color;
+      return `rgba(${colorCode},${opacity})`;
     },
   },
 };
