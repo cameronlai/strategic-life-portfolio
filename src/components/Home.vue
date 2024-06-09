@@ -653,9 +653,9 @@ export default {
       }[];
       for (let i = 0; i < this.tableData.length; i++) {
         let item = this.tableData[i];
-        const colorCode = this.chartLabels.find(
-          (x) => x.label === item.area
-        ).color.join(",");
+        const colorCode = this.chartLabels
+          .find((x) => x.label === item.area)
+          .color.join(",");
         const opacityCode = 0.6;
         datasets.push({
           label: [item.area, item.unit],
