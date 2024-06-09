@@ -10,19 +10,14 @@
         <h3>Visualize your life portfolio in the 2x2 Life Portfolio</h3>
       </v-row>
       <v-row class="my-4" justify="center">
-        <v-col cols="8">
+        <v-col cols="12">
           <Bubble
             id="bubbleChart"
             :data="chartData"
             :labels="chartLabels"
             :options="chartOptions"
           />
-        </v-col>
-        <v-col cols="1">
-          <v-btn class="my-2" variant="tonal" @click="shareClick">
-            Share
-          </v-btn>
-        </v-col>
+        </v-col>  
       </v-row>
       <v-row justify="center">
         <v-col cols="10">
@@ -691,15 +686,15 @@ export default {
         datasets: datasets,
       };
     },
-    // on click this function, image will be downloaded at client side in chartjs
-    shareClick() {
+    // on click this function, image will be downloaded at client side in chartjs    
+    /* shareClick() {
       const canvas = document.getElementById("bubbleChart");
       const dataURL = canvas.toDataURL("image/png", 1.0);
       const link = document.createElement("a");
       link.download = "chart.png";
       link.href = dataURL;
       link.click();
-    },
+    }, */
     getRowColor(area) {
       return this.getRowColorString(area, 0.3);
     },
