@@ -399,27 +399,27 @@ export default {
       chartLabels: [
         {
           label: "Relationships",
-          color: "f96b5c",
+          color: [219, 0, 0],
         },
         {
           label: "Body, mind, spirituality",
-          color: "7C8CF8",
+          color: [0, 118, 197],
         },
         {
           label: "Community and society",
-          color: "F9DC5C",
+          color: [255, 188, 0],
         },
         {
           label: "Job, learning, and finances",
-          color: "7CF997",
+          color: [0, 159, 40],
         },
         {
           label: "Interests and entertainment",
-          color: "9b42f5",
+          color: [156, 0, 206],
         },
         {
           label: "Personal care",
-          color: "808080",
+          color: [65, 76, 79],
         },
       ],
       chartData: {
@@ -647,7 +647,7 @@ export default {
     updateChart() {
       this.chartData.datasets = [];
       const datasets = [] as {
-        label: string[];        
+        label: string[];
         data: { x: number; y: number; r: number }[];
         backgroundColor: string;
       }[];
@@ -655,8 +655,8 @@ export default {
         let item = this.tableData[i];
         const colorCode = this.chartLabels.find(
           (x) => x.label === item.area
-        ).color;
-        const opacityCode = "80";
+        ).color.join(",");
+        const opacityCode = 0.6;
         datasets.push({
           label: [item.area, item.unit],
           data: [
@@ -666,7 +666,7 @@ export default {
               r: item.time * 4,
             },
           ],
-          backgroundColor: `#${opacityCode}${colorCode}`,
+          backgroundColor: `rgba(${colorCode},${opacityCode})`,
         });
       }
       this.chartData = {
