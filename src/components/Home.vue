@@ -1,34 +1,42 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="align-centerfill-height mx-auto" max-width="1200">
-      <v-divider :thickness="1" class="my-4"></v-divider>
-      <div class="text-center">
-        <h1 class="text-h2 font-weight-bold">Strategic Life Portfolio</h1>
-      </div>
-      <v-divider :thickness="1" class="my-4"></v-divider>
-      <v-row class="mt-5" justify="center">
-        <h3>Visualize your life portfolio in the 2x2 Life Portfolio</h3>
-      </v-row>
-      <v-row class="my-4" justify="center">
-        <v-col cols="12">
-          <Bubble
-            id="bubbleChart"
-            :data="chartData"
-            :labels="chartLabels"
-            :options="chartOptions"
-          />
-        </v-col>  
-      </v-row>
-      <v-row justify="center">
-        <v-col cols="10">
-          <v-card
-            class="py-4"
-            prepend-icon="mdi-text-box-outline"
-            rounded="lg"
-            subtitle="Enter your life portfolio in this table"
-            title="Your Life Porfolio"
-            variant="text"
+      <div class="text-center mt-4">      
+        <h1 class="text-h2 font-weight-bold mt-5 mb-4">Strategic Life Portfolio</h1>
+        <v-divider :thickness="1" class="my-1"></v-divider>
+        <p>
+          Read More:
+          <a
+            href="https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want"
           >
+            https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want
+          </a>
+        </p>
+        <v-divider :thickness="1" class="my-1"></v-divider>
+      </div>
+      <v-row class="mt-1" justify="center">
+        <v-col cols="12">
+          <v-card class="" rounded="lg" variant="text">
+            <v-card-title class="text-center font-weight-bold">
+              <v-icon icon="mdi-chart-scatter-plot-hexbin"></v-icon>
+              Your Life Porfolio
+            </v-card-title>
+            <Bubble
+              id="bubbleChart"
+              :data="chartData"
+              :labels="chartLabels"
+              :options="chartOptions"
+            />
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row class="my-1" justify="center">
+        <v-col cols="10">
+          <v-card class="" rounded="lg" variant="text">
+            <v-card-title class="text-center font-weight-bold">
+              <v-icon icon="mdi-text-box-outline"></v-icon>
+              Enter Your Life Porfolio
+            </v-card-title>
             <v-data-table
               :headers="tableHeaders"
               :items="tableData"
@@ -211,18 +219,6 @@
           </v-card>
         </v-col>
       </v-row>
-
-      <v-divider :thickness="1" class="my-4"></v-divider>
-
-      <div class="text-center font-italic">
-        Read More:
-        <a
-          href="https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want"
-        >
-          https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want
-        </a>
-      </div>
-      <v-divider :thickness="1" class="my-4"></v-divider>
     </v-responsive>
   </v-container>
 </template>
@@ -581,7 +577,7 @@ export default {
             if (x.importance < 0) x.importance = 0;
             else if (x.importance > 10) x.importance = 10;
             if (x.satisfaction < 0) x.satisfaction = 0;
-            else if (x.satisfaction > 10) x.satisfaction = 10;            
+            else if (x.satisfaction > 10) x.satisfaction = 10;
             return x;
           });
           this.updateChart();
@@ -686,7 +682,7 @@ export default {
         datasets: datasets,
       };
     },
-    // on click this function, image will be downloaded at client side in chartjs    
+    // on click this function, image will be downloaded at client side in chartjs
     /* shareClick() {
       const canvas = document.getElementById("bubbleChart");
       const dataURL = canvas.toDataURL("image/png", 1.0);
