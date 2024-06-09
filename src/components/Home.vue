@@ -38,7 +38,7 @@
               :headers="tableHeaders"
               :items="tableData"
               :sort-by="[{ key: 'area', order: 'asc' }]"
-              class="text-caption"
+              class="text-caption custom-font"
               items-per-page="50"
             >
               <template v-slot:top>
@@ -111,8 +111,8 @@
                                 label="Importance"
                                 :items="
                                   Array.from(
-                                    { length: 10 },
-                                    (_, index) => index + 1
+                                    { length: 11 },
+                                    (_, index) => index
                                   )
                                 "
                               ></v-select>
@@ -123,8 +123,8 @@
                                 label="Satisfaction"
                                 :items="
                                   Array.from(
-                                    { length: 10 },
-                                    (_, index) => index + 1
+                                    { length: 11 },
+                                    (_, index) => index
                                   )
                                 "
                               ></v-select>
@@ -187,10 +187,10 @@
               <template v-slot:item="{ item }">
                 <!-- write tr with background inline colour of orange, don't call getRowClass function-->
                 <tr :style="{ backgroundColor: getRowColor(item.area) }">
-                  <td>
+                  <td class="font-weight-bold">
                     {{ item.area }}
                   </td>
-                  <td>
+                  <td class="font-weight-bold">
                     {{ item.unit }}
                   </td>
                   <td>
@@ -270,8 +270,8 @@ export default {
       tableHeaders: [
         { title: "Area", key: "area", align: "start" },
         { title: "Unit", key: "unit" },
-        { title: "Importance (1 - 10)", key: "importance" },
-        { title: "Satisfaction (1 - 10)", key: "satisfaction" },
+        { title: "Importance (0-10)", key: "importance" },
+        { title: "Satisfaction (0-10)", key: "satisfaction" },
         { title: "Time (hours/week)", key: "time" },
         { title: "Actions", key: "actions", sortable: false },
       ],
@@ -476,12 +476,12 @@ export default {
               display: true,
               text: "Satisfaction",
             },
-            min: 0,
+            min: -1,
             max: 11,
             // Add ticks from 0 to 10 with step size of 1 only
             ticks: {
               callback: function (value, index, values) {
-                if (value > 0 && value <= 10) {
+                if (value >= 0 && value <= 10) {
                   return value;
                 }
               },
@@ -493,11 +493,11 @@ export default {
               display: true,
               text: "Importance",
             },
-            min: 0,
+            min: -1,
             max: 11,
             ticks: {
               callback: function (value, index, values) {
-                if (value > 0 && value <= 10) {
+                if (value >= 0 && value <= 10) {
                   return value;
                 }
               },
@@ -578,17 +578,15 @@ export default {
             .trim()
             .toLowerCase()
             .replace(" (hours/week)", "")
-            .replace(" (1 - 10)", ""),
+            .replace(" (0-10)", ""),
         complete: (results) => {
           console.log(results);
           this.tableData = results.data.map((x) => {
-            // check if the data is valid and in range of 1 - 10 for importance and satisfaction, if not set as 1
-            if (x.importance < 1 || x.importance > 10) {
-              x.importance = 1;
-            }
-            if (x.satisfaction < 1 || x.satisfaction > 10) {
-              x.satisfaction = 1;
-            }
+            // check if the data is valid and in range of 0 - 10 for importance and satisfaction, if not set as 1
+            if (x.importance < 0) x.importance = 0;
+            else if (x.importance > 10) x.importance = 10;
+            if (x.satisfaction < 0) x.satisfaction = 0;
+            else if (x.satisfaction > 10) x.satisfaction = 10;            
             return x;
           });
           this.updateChart();
