@@ -49,7 +49,7 @@
                   <v-dialog v-model="dialog" max-width="800">
                     <template v-slot:activator="{ props }">
                       <v-btn
-                        class="mb-2 mx-5"
+                        class="font-weight-bold mb-2 mx-5"
                         color="primary"
                         variant="outlined"
                         dark
@@ -58,7 +58,7 @@
                         New Item
                       </v-btn>
                       <v-btn
-                        class="mb-2 mx-5"
+                        class="font-weight-bold mb-2 mx-5"
                         color="primary"
                         variant="outlined"
                         dark
@@ -67,7 +67,7 @@
                         Reset
                       </v-btn>
                       <v-btn
-                        class="mb-2 mx-5"
+                        class="font-weight-bold mb-2 mx-5"
                         color="primary"
                         variant="outlined"
                         dark
@@ -82,7 +82,7 @@
                         @change="onImportCsvChanged"
                       />
                       <v-btn
-                        class="mb-2 mx-5"
+                        class="font-weight-bold mb-2 mx-5"
                         color="primary"
                         variant="outlined"
                         dark
