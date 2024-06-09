@@ -233,8 +233,15 @@
 </template>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Noticia+Text:wght@100;300;400;500;700;900&display=swap");
 .bubble-chart {
   height: 200px;
+}
+h1 {
+  font-family: "Noticia Text", sans-serif;
+}
+.custom-font {
+  font-family: "Noticia Text", sans-serif;
 }
 </style>
 
