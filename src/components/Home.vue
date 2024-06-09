@@ -207,9 +207,8 @@
           href="https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want"
         >
           https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want
-        </a>
+        </a>        
       </div>
-
       <v-divider :thickness="1" class="my-4"></v-divider>
     </v-responsive>
   </v-container>
@@ -275,7 +274,7 @@ export default {
       tableData: [],
       tableDataOriginal: [
         {
-          area: "1. Relationships",
+          area: "Relationships",
           unit: "Significant other",
           description: "Time with partner, dates",
           importance: 1,
@@ -283,7 +282,7 @@ export default {
           time: 1,
         },
         {
-          area: "1. Relationships",
+          area: "Relationships",
           unit: "Family",
           description: "Engaging with kids, parents, siblings",
           importance: 2,
@@ -291,7 +290,7 @@ export default {
           time: 2,
         },
         {
-          area: "2. Body, mind, spirituality",
+          area: "Body, mind, spirituality",
           unit: "Physical health/sports ",
           description: "Exercise, physical therapy",
           importance: 4,
@@ -299,7 +298,7 @@ export default {
           time: 4,
         },
         {
-          area: "2. Body, mind, spirituality",
+          area: "Body, mind, spirituality",
           unit: "Mental health/mindfulness ",
           description: "Psychotherapy, meditation",
           importance: 5,
@@ -307,7 +306,7 @@ export default {
           time: 5,
         },
         {
-          area: "2. Body, mind, spirituality",
+          area: "Body, mind, spirituality",
           unit: "Spirituality/faith",
           description: "Religious practice",
           importance: 6,
@@ -315,7 +314,7 @@ export default {
           time: 6,
         },
         {
-          area: "3. Community and society",
+          area: "Community and society",
           unit: "Community/citizenship",
           description: "Membership in local clubs, jury duty",
           importance: 7,
@@ -323,7 +322,7 @@ export default {
           time: 7,
         },
         {
-          area: "3. Community and society",
+          area: "Community and society",
           unit: "Societal engagement",
           description: "Volunteering, activism",
           importance: 8,
@@ -331,7 +330,7 @@ export default {
           time: 8,
         },
         {
-          area: "4. Job, learning, and finances",
+          area: "Job, learning, and finances",
           unit: "Job/career",
           description: "Work",
           importance: 9,
@@ -339,7 +338,7 @@ export default {
           time: 9,
         },
         {
-          area: "4. Job, learning, and finances",
+          area: "Job, learning, and finances",
           unit: "Education/learning",
           description: "Classes, training",
           importance: 9,
@@ -347,7 +346,7 @@ export default {
           time: 9,
         },
         {
-          area: "4. Job, learning, and finances",
+          area: "Job, learning, and finances",
           unit: "Finances",
           description: "Planning, investing",
           importance: 5,
@@ -355,7 +354,7 @@ export default {
           time: 5,
         },
         {
-          area: "5. Interests and entertainment",
+          area: "Interests and entertainment",
           unit: "Hobbies/interests",
           description: "Reading, collectibles",
           importance: 9,
@@ -363,7 +362,7 @@ export default {
           time: 9,
         },
         {
-          area: "5. Interests and entertainment",
+          area: "Interests and entertainment",
           unit: "Online entertainment",
           description: "Social media, TV, gaming",
           importance: 7,
@@ -371,7 +370,7 @@ export default {
           time: 5,
         },
         {
-          area: "5. Interests and entertainment",
+          area: "Interests and entertainment",
           unit: "Offline entertainment",
           description: "Vacations, theater, sporting events",
           importance: 5,
@@ -379,7 +378,7 @@ export default {
           time: 5,
         },
         {
-          area: "6. Personal care",
+          area: "Personal care",
           unit: "Physiological needs",
           description: "Eating, sleeping",
           importance: 2,
@@ -387,7 +386,7 @@ export default {
           time: 5,
         },
         {
-          area: "6. Personal care",
+          area: "Personal care",
           unit: "Activities of daily living",
           description: "Commuting, housework",
           importance: 1,
@@ -398,27 +397,27 @@ export default {
       // Chart variables
       chartLabels: [
         {
-          label: "1. Relationships",
+          label: "Relationships",
           color: "#f96b5c",
         },
         {
-          label: "2. Body, mind, spirituality",
+          label: "Body, mind, spirituality",
           color: "#7C8CF8",
         },
         {
-          label: "3. Community and society",
+          label: "Community and society",
           color: "#F9DC5C",
         },
         {
-          label: "4. Job, learning, and finances",
+          label: "Job, learning, and finances",
           color: "#7CF997",
         },
         {
-          label: "5. Interests and entertainment",
+          label: "Interests and entertainment",
           color: "#9b42f5",
         },
         {
-          label: "6. Personal care",
+          label: "Personal care",
           color: "#808080",
         },
       ],
@@ -426,7 +425,7 @@ export default {
         datasets: [],
         /* Example of dataset
           {
-            label: "1. Relationships",
+            label: "Relationships",
             backgroundColor: "#f87979",
             data: [
               {
@@ -640,22 +639,17 @@ export default {
     },
     updateChart() {
       this.chartData.datasets = [];
-      let datasets = [];
-      const colors = [
-        "#f96b5c", // Red
-        "#7C8CF8", // Blue
-        "#F9DC5C", // Yellow
-        "#7CF997", // Green
-        "#9b42f5", // Purple
-        "#808080", // Grey
-      ];
+      const datasets = [] as {
+        label: string[];
+        backgroundColor: string;
+        data: { x: number; y: number; r: number }[];
+      }[];
       for (let i = 0; i < this.tableData.length; i++) {
         let item = this.tableData[i];
-        console.log(item);
-        let chartLabelIndex = parseInt(item.area.slice(0, 1)) - 1;
+        const colorCode = this.chartLabels.find((x) => x.label === item.area).color;
         datasets.push({
           label: [item.area, item.unit],
-          backgroundColor: this.chartLabels[chartLabelIndex].color,
+          backgroundColor: colorCode,
           data: [
             {
               x: item.satisfaction,
