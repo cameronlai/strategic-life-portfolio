@@ -82,7 +82,7 @@
                         color="primary"
                         variant="outlined"
                         dark
-                        @click="downloadCsvTemplate"
+                        @click="downloadCsv"
                       >
                         Download CSV
                       </v-btn>
@@ -131,7 +131,7 @@
                             <v-col cols="12" md="4" sm="4">
                               <v-text-field
                                 v-model="editedItem.time"
-                                label="Time (hours)"
+                                label="Time (hours/week)"
                               ></v-text-field>
                             </v-col>
                           </v-row>
@@ -207,7 +207,7 @@
           href="https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want"
         >
           https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want
-        </a>        
+        </a>
       </div>
       <v-divider :thickness="1" class="my-4"></v-divider>
     </v-responsive>
@@ -241,34 +241,13 @@ export default {
   components: { Bubble },
   data() {
     return {
-      // Edit Dialog Handling
-      dialog: false,
-      dialogDelete: false,
-      editedIndex: -1,
-      editedItem: {
-        area: "",
-        unit: "",
-        importance: 0,
-        satisfaction: 0,
-        time: 0,
-      },
-      defaultItem: {
-        area: "",
-        unit: "",
-        importance: 0,
-        satisfaction: 0,
-        time: 0,
-      },
-      // Import CSV Variables
-      isSelectingFile: false,
-      selectedFile: null,
       // Table Data Handling
       tableHeaders: [
         { title: "Area", key: "area", align: "start" },
         { title: "Unit", key: "unit" },
         { title: "Importance (1 - 10)", key: "importance" },
         { title: "Satisfaction (1 - 10)", key: "satisfaction" },
-        { title: "Time (hours)", key: "time" },
+        { title: "Time (hours/week)", key: "time" },
         { title: "Actions", key: "actions", sortable: false },
       ],
       tableData: [],
@@ -394,6 +373,27 @@ export default {
           time: 5,
         },
       ], // End of lifeData
+      // Edit Dialog Handling
+      dialog: false,
+      dialogDelete: false,
+      editedIndex: -1,
+      editedItem: {
+        area: "",
+        unit: "",
+        importance: 0,
+        satisfaction: 0,
+        time: 0,
+      },
+      defaultItem: {
+        area: "",
+        unit: "",
+        importance: 0,
+        satisfaction: 0,
+        time: 0,
+      },
+      // Import CSV Variables
+      isSelectingFile: false,
+      selectedFile: null,
       // Chart variables
       chartLabels: [
         {
@@ -480,7 +480,6 @@ export default {
             },
           },
         },
-
         plugins: {
           customCanvasBackgroundColor: {
             color: "white",
@@ -510,7 +509,7 @@ export default {
                   `Unit: ${label[1]}`,
                   `Importantce: ${context.raw.y}`,
                   `Satisfaction: ${context.raw.x}`,
-                  `Time: ${hours} hours`,
+                  `Time: ${hours} hours/week`,
                 ];
               },
             },
@@ -529,6 +528,15 @@ export default {
   },
   created() {
     this.resetData();
+    // Set edit item defaul titem
+    this.defaultItem = {
+      area: this.tableDataOriginal[0].area,
+      unit: this.tableDataOriginal[0].unit,
+      importance: 1,
+      satisfaction: 1,
+      time: 1,
+    };
+    this.editedItem = Object.assign({}, this.defaultItem);
   },
   methods: {
     resetData() {
@@ -544,7 +552,7 @@ export default {
           header
             .trim()
             .toLowerCase()
-            .replace(" (hours)", "")
+            .replace(" (hours/week)", "")
             .replace(" (1 - 10)", ""),
         complete: (results) => {
           console.log(results);
@@ -575,7 +583,7 @@ export default {
       // Trigger click on the FileInput
       this.$refs.uploader.click();
     },
-    downloadCsvTemplate() {
+    downloadCsv() {
       // write code to generate csv template from this.tableHeader and this.tableData and download it in client side, string comma handled
       const csvContent =
         "data:text/csv;charset=utf-8," +
@@ -607,13 +615,11 @@ export default {
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
     },
-
     deleteItemConfirm() {
       this.tableData.splice(this.editedIndex, 1);
       this.closeDelete();
       this.updateChart();
     },
-
     close() {
       this.dialog = false;
       this.$nextTick(() => {
@@ -646,7 +652,9 @@ export default {
       }[];
       for (let i = 0; i < this.tableData.length; i++) {
         let item = this.tableData[i];
-        const colorCode = this.chartLabels.find((x) => x.label === item.area).color;
+        const colorCode = this.chartLabels.find(
+          (x) => x.label === item.area
+        ).color;
         datasets.push({
           label: [item.area, item.unit],
           backgroundColor: colorCode,
