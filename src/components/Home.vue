@@ -1,27 +1,32 @@
 <template>
   <v-container class="fill-height">
-    <v-responsive class="align-centerfill-height mx-auto" max-width="1200">
-      <div class="text-center mt-4">      
-        <h1 class="text-h2 font-weight-bold mt-5 mb-4">Strategic Life Portfolio</h1>
-        <v-divider :thickness="1" class="my-1"></v-divider>
-        <p>
-          Read More:
-          <a
-            href="https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want"
-          >
-            https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want
-          </a>
-        </p>
-        <v-divider :thickness="1" class="my-1"></v-divider>
-      </div>
-      <v-row class="mt-1" justify="center">
-        <v-col cols="12">
+    <v-responsive class="align-centerfill-height mx-auto">
+      <v-row class="text-center">
+        <v-col>
+          <h1 class="text-h4 text-sm-h2 font-weight-bold mt-5 mb-4">
+            Strategic Life Portfolio
+          </h1>
+          <v-divider :thickness="1" class="my-1"></v-divider>
+          <p class="text-caption text-sm-body-1">
+            Read More:
+            <a
+              href="https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want"
+            >
+              https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want
+            </a>
+          </p>
+          <v-divider :thickness="1" class="my-1"></v-divider>
+        </v-col>
+      </v-row>
+      <v-row justify="center" align="center">
+        <v-col cols="12" sm="8">
           <v-card class="" rounded="lg" variant="text">
-            <v-card-title class="text-center font-weight-bold">
+            <v-card-title class="my-0 text-center font-weight-bold">
               <v-icon icon="mdi-chart-scatter-plot-hexbin"></v-icon>
               Your Life Porfolio
             </v-card-title>
             <Bubble
+              class="my-0"
               id="bubbleChart"
               :data="chartData"
               :labels="chartLabels"
@@ -29,11 +34,18 @@
             />
           </v-card>
         </v-col>
+        <v-col cols="12" sm="2" class="text-center">
+          <p class="text-body-2 font-italic font-weight-light">
+            Radius: <br />Time (hours/week)
+          </p>
+        </v-col>
       </v-row>
       <v-row class="my-1" justify="center">
         <v-col cols="10">
           <v-card class="" rounded="lg" variant="text">
-            <v-card-title class="text-center font-weight-bold">
+            <v-card-title
+              class="text-body-1 text-sm-h6 text-center font-weight-bold"
+            >
               <v-icon icon="mdi-text-box-outline"></v-icon>
               Enter Your Life Porfolio
             </v-card-title>
@@ -454,23 +466,28 @@ export default {
           */
       }, // End of graph data
       chartOptions: {
-        // Custom legend with distinct items only, no need to repeat
         responsive: true,
         maintainAspectRatio: true,
-        // Styling
+        aspectRatio: 1,
         borderColor: "#80fffff",
         borderWidth: 0.25,
-        // write x and y axex labels as satisfaction and importance with min -1 and max as 11
         scales: {
           x: {
             title: {
               display: true,
               text: "Satisfaction",
+              font: {
+                family: "Noticia Text",
+                size: 16,
+              },
             },
-            min: -1,
-            max: 11,
+            min: -2,
+            max: 12,
             // Add ticks from 0 to 10 with step size of 1 only
             ticks: {
+              font: {
+                family: "Noticia Text",
+              },
               callback: function (value, index, values) {
                 if (value >= 0 && value <= 10) {
                   return value;
@@ -483,10 +500,17 @@ export default {
             title: {
               display: true,
               text: "Importance",
+              font: {
+                family: "Noticia Text",
+                size: 16,
+              },
             },
-            min: -1,
-            max: 11,
+            min: -2,
+            max: 12,
             ticks: {
+              font: {
+                family: "Noticia Text",
+              },
               callback: function (value, index, values) {
                 if (value >= 0 && value <= 10) {
                   return value;
@@ -497,14 +521,14 @@ export default {
           },
         },
         plugins: {
-          customCanvasBackgroundColor: {
-            color: "white",
-          },
           legend: {
             position: "bottom",
             display: true,
             onClick: (e) => {},
             labels: {
+              font: {
+                family: "Noticia Text",
+              },
               generateLabels: (chart) => {
                 return this.chartLabels.map((x, i) => ({
                   text: `${x.label}`,
@@ -531,7 +555,7 @@ export default {
             },
           },
         },
-      }, // End of graphOptions
+      }, // End of chartOptions
     };
   },
   watch: {
