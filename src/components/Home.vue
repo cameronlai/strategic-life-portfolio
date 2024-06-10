@@ -7,12 +7,17 @@
             Strategic Life Portfolio
           </h1>
           <v-divider :thickness="1" class="my-1"></v-divider>
-          <p class="text-caption text-sm-body-1">
-            Read More:
+          <p class="mx-0 mx-sm-10 text-caption text-sm-body-1">
+            🌟 <b>Strategize</b> your life by envisioning your future, clarifying your
+            purpose, and identifying key growth areas. <br />Assess your life
+            portfolio across six <b>Strategic Life Areas (SLAs)</b> and <b>Strategic Life
+            Units (SLUs)</b>. <br />Remember, thoughtful planning of life can lead
+            to best investments of your time, energy, and money!😊🌟 
+            <br />
             <a
               href="https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want"
             >
-              https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want
+              Read More
             </a>
           </p>
           <v-divider :thickness="1" class="my-1"></v-divider>
@@ -21,7 +26,7 @@
       <v-row justify="center" align="center">
         <v-col cols="12" sm="8">
           <v-card class="" rounded="lg" variant="text">
-            <v-card-title class="my-0 text-center font-weight-bold">
+            <v-card-title class="text-center font-weight-bold">
               <v-icon icon="mdi-chart-scatter-plot-hexbin"></v-icon>
               Your Life Porfolio
             </v-card-title>
