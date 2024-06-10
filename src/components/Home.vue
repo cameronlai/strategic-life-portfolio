@@ -205,16 +205,24 @@
                   </v-dialog>
                 </v-toolbar>
               </template>
-              <template v-slot:item.area="{ value }">
+              <template v-slot:item.area="{ item }">
                 <v-chip
                   class="font-weight-bold tonal"
-                  :style="{ backgroundColor: getRowColor(value) }"
+                  :style="{ backgroundColor: getRowColor(item.area) }"
                 >
-                  {{ value }}
+                  {{ item.area }}
                 </v-chip>
               </template>
-              <template v-slot:item.unit="{ value }">
-                <div class="font-weight-bold">{{ value }}</div>
+              <template v-slot:item.unit="{ item }">
+                <div class="font-weight-bold">{{ item.unit }}</div>
+              </template>
+              <template v-slot:item.actions="{ item }">
+                <v-icon class="me-2" size="small" @click="editItem(item)">
+                  mdi-pencil
+                </v-icon>
+                <v-icon size="small" @click="deleteItem(item)">
+                  mdi-delete
+                </v-icon>
               </template>
             </v-data-table>
           </v-card>
