@@ -204,6 +204,16 @@
                     </v-card>
                   </v-dialog>
                 </v-toolbar>
+                <div
+                  class="text-body-1 text-center font-weight-bold"
+                  :class="totalHours > 168 || totalHours < 0 ? 'text-red' : ''"
+                >
+                  Total hours for your week: {{ totalHours }} / 168
+                  <div v-if="invalidTotalHours()">
+                    (Your total hours per week is invalid, please correct the
+                    numbers!)
+                  </div>
+                </div>
               </template>
               <template v-slot:item.area="{ item }">
                 <v-chip
@@ -553,6 +563,7 @@ export default {
           },
         },
       }, // End of chartOptions
+      totalHours: 0,
     };
   },
   watch: {
@@ -576,6 +587,15 @@ export default {
     this.editedItem = Object.assign({}, this.defaultItem);
   },
   methods: {
+    calculateTotalHours() {
+      this.totalHours = this.tableData.reduce(
+        (acc, item) => acc + item.time,
+        0
+      );
+    },
+    invalidTotalHours() {
+      return this.totalHours > 168 || this.totalHours < 0;
+    },
     resetData() {
       this.tableData = this.tableDataOriginal.map((x) => x);
       this.updateChart();
@@ -670,6 +690,7 @@ export default {
       });
     },
     save() {
+      this.editedItem.time = parseInt(this.editedItem.time);
       if (this.editedIndex > -1) {
         Object.assign(this.tableData[this.editedIndex], this.editedItem);
       } else {
@@ -702,6 +723,8 @@ export default {
       this.chartData = {
         datasets: datasets,
       };
+      // Also calculate total hours again
+      this.calculateTotalHours();
     },
     // on click this function, image will be downloaded at client side in chartjs
     /* shareClick() {
