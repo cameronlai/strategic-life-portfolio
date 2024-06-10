@@ -41,7 +41,7 @@
         </v-col>
       </v-row>
       <v-row class="my-1" justify="center">
-        <v-col cols="10">
+        <v-col cols="12">
           <v-card class="" rounded="lg" variant="text">
             <v-card-title
               class="text-body-1 text-sm-h6 text-center font-weight-bold"
@@ -199,33 +199,16 @@
                   </v-dialog>
                 </v-toolbar>
               </template>
-              <template v-slot:item="{ item }">
-                <!-- write tr with background inline colour of orange, don't call getRowClass function-->
-                <tr :style="{ backgroundColor: getRowColor(item.area) }">
-                  <td class="font-weight-bold">
-                    {{ item.area }}
-                  </td>
-                  <td class="font-weight-bold">
-                    {{ item.unit }}
-                  </td>
-                  <td>
-                    {{ item.importance }}
-                  </td>
-                  <td>
-                    {{ item.satisfaction }}
-                  </td>
-                  <td>
-                    {{ item.time }}
-                  </td>
-                  <td>
-                    <v-icon class="me-2" size="small" @click="editItem(item)">
-                      mdi-pencil
-                    </v-icon>
-                    <v-icon size="small" @click="deleteItem(item)">
-                      mdi-delete
-                    </v-icon>
-                  </td>
-                </tr>
+              <template v-slot:item.area="{ value }">
+                <v-chip
+                  class="font-weight-bold tonal"
+                  :style="{ backgroundColor: getRowColor(value) }"
+                >
+                  {{ value }}
+                </v-chip>
+              </template>
+              <template v-slot:item.unit="{ value }">
+                <div class="font-weight-bold">{{ value }}</div>
               </template>
             </v-data-table>
           </v-card>
