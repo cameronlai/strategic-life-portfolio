@@ -57,51 +57,57 @@
               items-per-page="50"
             >
               <template v-slot:top>
-                <v-toolbar flat>
-                  <v-dialog v-model="dialog" max-width="800">
+                <v-toolbar class="fill-width" flatn prominent>
+                  <v-dialog v-model="dialog" width="800">
                     <template v-slot:activator="{ props }">
-                      <v-btn
-                        class="font-weight-bold mb-2 mx-5"
-                        color="primary"
-                        variant="outlined"
-                        dark
-                        v-bind="props"
-                      >
-                        New Item
-                      </v-btn>
-                      <v-btn
-                        class="font-weight-bold mb-2 mx-5"
-                        color="primary"
-                        variant="outlined"
-                        dark
-                        @click="resetData"
-                      >
-                        Reset
-                      </v-btn>
-                      <v-btn
-                        class="font-weight-bold mb-2 mx-5"
-                        color="primary"
-                        variant="outlined"
-                        dark
-                        @click="importCsv"
-                      >
-                        Import CSV
-                      </v-btn>
-                      <input
-                        ref="uploader"
-                        class="d-none"
-                        type="file"
-                        @change="onImportCsvChanged"
-                      />
-                      <v-btn
-                        class="font-weight-bold mb-2 mx-5"
-                        color="primary"
-                        variant="outlined"
-                        dark
-                        @click="downloadCsv"
-                      >
-                        Download CSV
-                      </v-btn>
+                      <div>
+                        <v-btn
+                          class="font-weight-bold mx-1 mx-sm-4"
+                          color="primary"
+                          variant="outlined"
+                          dark
+                          v-bind="props"
+                        >
+                          <!-- New Item -->
+                          <v-icon icon="mdi-plus"></v-icon>
+                        </v-btn>
+                        <v-btn
+                          class="font-weight-bold mx-1 mx-sm-4"
+                          color="primary"
+                          variant="outlined"
+                          dark
+                          @click="resetData"
+                        >
+                          <!-- Reset -->
+                          <v-icon icon="mdi-reload"></v-icon>
+                        </v-btn>
+                        <v-btn
+                          class="font-weight-bold mx-1 mx-sm-4"
+                          color="primary"
+                          variant="outlined"
+                          dark
+                          @click="importCsv"
+                        >
+                          <!-- Import CSV -->
+                          <v-icon icon="mdi-import"></v-icon>
+                        </v-btn>
+                        <input
+                          ref="uploader"
+                          class="d-none"
+                          type="file"
+                          @change="onImportCsvChanged"
+                        />
+                        <v-btn
+                          class="font-weight-bold mx-1 mx-sm-4"
+                          color="primary"
+                          variant="outlined"
+                          dark
+                          @click="downloadCsv"
+                        >
+                          <!-- Download CSV -->
+                          <v-icon icon="mdi-download"></v-icon>
+                        </v-btn>
+                      </div>
                     </template>
                     <v-card>
                       <v-card-text>
