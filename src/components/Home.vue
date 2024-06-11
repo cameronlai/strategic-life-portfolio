@@ -8,11 +8,11 @@
           </h1>
           <v-divider :thickness="1" class="my-1"></v-divider>
           <p class="mx-0 mx-sm-10 text-caption text-sm-body-1">
-            ✍️ Evaluate your life using a portfolio analysis of how you allocate
-            your 168-hour week across six Strategic Life Areas (SLAs) and
-            various Strategic Life Units (SLUs). ⭐️ Reflect on your life strategy
-            and consider adjustments for best use of your own time, energy, and
-            money investments! 😊⭐️
+            ✍️ Assess your life portfolio for your 168-hour week across six
+            Strategic Life Areas (SLAs) and various Strategic Life Units (SLUs).
+            <br />
+            ⭐️ Reflect on your life strategy and consider adjustments for best
+            use of your own time, energy, and money investments! 😊⭐️ <br />
             <a
               href="https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want"
             >
@@ -56,7 +56,7 @@
             <v-data-table
               :headers="tableHeaders"
               :items="tableData"
-              :sort-by="[{ key: 'area', order: 'asc' }]"
+              :sort-by="[{ key: 'area', order: 'desc' }]"
               class="text-caption custom-font"
               items-per-page="50"
             >
@@ -295,81 +295,89 @@ export default {
           area: "Relationships",
           unit: "Significant other",
           description: "Time with partner, dates",
-          importance: 1,
-          satisfaction: 1,
-          time: 1,
+          importance: 8,
+          satisfaction: 3,
+          time: 2,
         },
         {
           area: "Relationships",
           unit: "Family",
           description: "Engaging with kids, parents, siblings",
-          importance: 2,
-          satisfaction: 2,
-          time: 2,
+          importance: 8,
+          satisfaction: 8,
+          time: 6,
+        },
+        {
+          area: "Relationships",
+          unit: "Friendship",
+          description: "Time with friends",
+          importance: 7,
+          satisfaction: 8,
+          time: 10,
         },
         {
           area: "Body, mind, spirituality",
           unit: "Physical health/sports ",
           description: "Exercise, physical therapy",
-          importance: 4,
-          satisfaction: 4,
-          time: 4,
+          importance: 6,
+          satisfaction: 7,
+          time: 6,
         },
         {
           area: "Body, mind, spirituality",
           unit: "Mental health/mindfulness ",
           description: "Psychotherapy, meditation",
-          importance: 5,
-          satisfaction: 5,
-          time: 5,
+          importance: 8,
+          satisfaction: 2,
+          time: 4,
         },
         {
           area: "Body, mind, spirituality",
           unit: "Spirituality/faith",
           description: "Religious practice",
-          importance: 6,
-          satisfaction: 6,
-          time: 6,
+          importance: 4,
+          satisfaction: 8,
+          time: 4,
         },
         {
           area: "Community and society",
           unit: "Community/citizenship",
           description: "Membership in local clubs, jury duty",
-          importance: 7,
-          satisfaction: 7,
-          time: 7,
+          importance: 2,
+          satisfaction: 3,
+          time: 1,
         },
         {
           area: "Community and society",
           unit: "Societal engagement",
           description: "Volunteering, activism",
-          importance: 8,
-          satisfaction: 8,
-          time: 8,
+          importance: 6,
+          satisfaction: 4,
+          time: 3,
         },
         {
           area: "Job, learning, and finances",
           unit: "Job/career",
           description: "Work",
-          importance: 9,
-          satisfaction: 1,
-          time: 9,
+          importance: 7,
+          satisfaction: 5,
+          time: 40,
         },
         {
           area: "Job, learning, and finances",
           unit: "Education/learning",
           description: "Classes, training",
-          importance: 9,
-          satisfaction: 2,
-          time: 9,
+          importance: 6,
+          satisfaction: 3,
+          time: 10,
         },
         {
           area: "Job, learning, and finances",
           unit: "Finances",
           description: "Planning, investing",
-          importance: 5,
-          satisfaction: 2,
-          time: 5,
+          importance: 6,
+          satisfaction: 6,
+          time: 3,
         },
         {
           area: "Interests and entertainment",
@@ -383,33 +391,33 @@ export default {
           area: "Interests and entertainment",
           unit: "Online entertainment",
           description: "Social media, TV, gaming",
-          importance: 7,
-          satisfaction: 1,
-          time: 5,
+          importance: 3,
+          satisfaction: 6,
+          time: 7,
         },
         {
           area: "Interests and entertainment",
           unit: "Offline entertainment",
           description: "Vacations, theater, sporting events",
-          importance: 5,
-          satisfaction: 1,
-          time: 5,
+          importance: 2,
+          satisfaction: 4,
+          time: 3,
         },
         {
           area: "Personal care",
           unit: "Physiological needs",
           description: "Eating, sleeping",
-          importance: 2,
-          satisfaction: 5,
-          time: 5,
+          importance: 7,
+          satisfaction: 7,
+          time: 40,
         },
         {
           area: "Personal care",
           unit: "Activities of daily living",
           description: "Commuting, housework",
-          importance: 1,
-          satisfaction: 3,
-          time: 5,
+          importance: 3,
+          satisfaction: 7,
+          time: 20,
         },
       ], // End of lifeData
       // Edit Dialog Handling
@@ -492,8 +500,8 @@ export default {
                 size: 16,
               },
             },
-            min: -2,
-            max: 12,
+            min: 0,
+            max: 10,
             // Add ticks from 0 to 10 with step size of 1 only
             ticks: {
               font: {
@@ -516,8 +524,8 @@ export default {
                 size: 16,
               },
             },
-            min: -2,
-            max: 12,
+            min: 0,
+            max: 10,
             ticks: {
               font: {
                 family: "Noticia Text",
@@ -554,7 +562,7 @@ export default {
             callbacks: {
               label: function (context) {
                 let label = context.dataset.label || "";
-                let hours = context.raw.r / 4;
+                let hours = context.raw.r / 2;
                 return [
                   `Area: ${label[0]}`,
                   `Unit: ${label[1]}`,
@@ -718,7 +726,7 @@ export default {
             {
               x: item.satisfaction,
               y: item.importance,
-              r: item.time * 4,
+              r: item.time * 2,
             },
           ],
           backgroundColor: this.getRowColorString(item.area, 0.6),
