@@ -8,12 +8,11 @@
           </h1>
           <v-divider :thickness="1" class="my-1"></v-divider>
           <p class="mx-0 mx-sm-10 text-caption text-sm-body-1">
-            🌟 <b>Strategize</b> Your Life Anytime. <br />Asses your life with
-            portfolio analysis of how you spend your 168-hour week across six
-            <b>Strategic Life Areas (SLAs)</b> and different
-            <b>Strategic Life Units (SLUs)</b>. <br />Remember, thoughtful
-            planning of life can lead to best investments of your time, energy,
-            and money!😊🌟 <br />
+            ✍️ Evaluate your life using a portfolio analysis of how you allocate
+            your 168-hour week across six Strategic Life Areas (SLAs) and
+            various Strategic Life Units (SLUs). ⭐️ Reflect on your life strategy
+            and consider adjustments for best use of your own time, energy, and
+            money investments! 😊⭐️
             <a
               href="https://hbr.org/2023/12/use-strategic-thinking-to-create-the-life-you-want"
             >
