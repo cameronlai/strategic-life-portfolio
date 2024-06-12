@@ -600,6 +600,7 @@ export default {
   },
   methods: {
     calculateTotalHours() {
+      console.log(this.tableData);
       this.totalHours = this.tableData.reduce(
         (acc, item) => acc + item.time,
         0
@@ -626,11 +627,16 @@ export default {
         complete: (results) => {
           console.log(results);
           this.tableData = results.data.map((x) => {
+            // parseInt
+            x.importance = parseInt(x.importance) || 1;
+            x.satisfaction = parseInt(x.satisfaction) || 1;
+            x.time = parseInt(x.time) || 1;
             // check if the data is valid and in range of 0 - 10 for importance and satisfaction, if not set as 1
             if (x.importance < 0) x.importance = 0;
             else if (x.importance > 10) x.importance = 10;
             if (x.satisfaction < 0) x.satisfaction = 0;
             else if (x.satisfaction > 10) x.satisfaction = 10;
+            if (x.time < 0) x.time = 0;
             return x;
           });
           this.updateChart();
