@@ -267,7 +267,8 @@ import {
   PointElement,
   LinearScale,
 } from "chart.js";
-ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
+import ChartDataLabels from "chartjs-plugin-datalabels";
+ChartJS.register(LinearScale, PointElement, Tooltip, Legend, ChartDataLabels);
 </script>
 
 <script lang="ts">
@@ -571,6 +572,11 @@ export default {
                   `Time: ${hours} hours/week`,
                 ];
               },
+            },
+          },
+          datalabels: {
+            formatter: function (value, context) {
+              return context.dataset.label[1];
             },
           },
         },
