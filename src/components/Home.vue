@@ -728,7 +728,39 @@ export default {
         label: string[];
         data: { x: number; y: number; r: number }[];
         backgroundColor: string;
+        datalabels: {
+          color: string;
+          align: string;
+          offset: number;
+          font: { size: number };
+        };        
       }[];
+      let dataLabelAlignPosition = Array(this.tableData.length).fill("bottom");
+      // alter based on importance that even number should be top
+      for (let i = 0; i < this.tableData.length; i++) {
+        const item = this.tableData[i];
+        if (item.importance <= 5 ) {
+          if ((item.importance + 1) % 2 === 0) dataLabelAlignPosition[i] = "top";
+        } else {
+          if (item.importance % 2 === 0) dataLabelAlignPosition[i] = "top";
+        }
+      }
+      for (let i = 0; i <= 10; i++) {
+        const filterData = this.tableData
+          .filter((x) => x.importance === i)
+          .sort((a, b) => a.satisfaction - b.satisfaction);
+        if (filterData.length > 1) {
+          for (let j = 1; j < filterData.length; j += 2) {
+            const filterDataIndex = this.tableData.indexOf(filterData[j]);
+            // flip top and bottom below
+            if (dataLabelAlignPosition[filterDataIndex] === "top") {
+              dataLabelAlignPosition[filterDataIndex] = "bottom";
+            } else {
+              dataLabelAlignPosition[filterDataIndex] = "top";
+            }
+          }
+        }
+      }
       for (let i = 0; i < this.tableData.length; i++) {
         let item = this.tableData[i];
         datasets.push({
@@ -740,6 +772,14 @@ export default {
               r: item.time * 2,
             },
           ],
+          datalabels: {
+            color: "black",
+            align: dataLabelAlignPosition[i],
+            offset: item.time * 2,
+            font: {
+              size: 8,
+            },
+          },
           backgroundColor: this.getRowColorString(item.area, 0.6),
         });
       }
