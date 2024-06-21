@@ -42,6 +42,8 @@
           <p class="text-body-2 font-italic font-weight-light">
             Radius: <br />Time (hours/week)
           </p>
+          <v-checkbox v-model="showLabel" 
+          @change="showLabelChange" label="Show Labels"></v-checkbox>
         </v-col>
       </v-row>
       <v-row class="my-1" justify="center">
@@ -485,6 +487,7 @@ export default {
           },
           */
       }, // End of graph data
+      showLabel: true,
       chartOptions: {
         responsive: true,
         maintainAspectRatio: true,
@@ -722,6 +725,9 @@ export default {
       this.close();
       this.updateChart();
     },
+    showLabelChange() {
+      this.updateChart();
+    },
     updateChart() {
       this.chartData.datasets = [];
       const datasets = [] as {
@@ -729,18 +735,20 @@ export default {
         data: { x: number; y: number; r: number }[];
         backgroundColor: string;
         datalabels: {
+          display: boolean;
           color: string;
           align: string;
           offset: number;
           font: { size: number };
-        };        
+        };
       }[];
       let dataLabelAlignPosition = Array(this.tableData.length).fill("bottom");
       // alter based on importance that even number should be top
       for (let i = 0; i < this.tableData.length; i++) {
         const item = this.tableData[i];
-        if (item.importance <= 5 ) {
-          if ((item.importance + 1) % 2 === 0) dataLabelAlignPosition[i] = "top";
+        if (item.importance <= 5) {
+          if ((item.importance + 1) % 2 === 0)
+            dataLabelAlignPosition[i] = "top";
         } else {
           if (item.importance % 2 === 0) dataLabelAlignPosition[i] = "top";
         }
@@ -773,6 +781,7 @@ export default {
             },
           ],
           datalabels: {
+            display: this.showLabel,
             color: "black",
             align: dataLabelAlignPosition[i],
             offset: item.time * 2,
