@@ -786,7 +786,7 @@ export default {
             align: dataLabelAlignPosition[i],
             offset: item.time * 2,
             font: {
-              size: 8,
+              size: 10,
             },
           },
           backgroundColor: this.getRowColorString(item.area, 0.6),
