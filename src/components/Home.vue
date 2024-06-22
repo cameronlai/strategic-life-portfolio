@@ -42,8 +42,11 @@
           <p class="text-body-2 font-italic font-weight-light">
             Radius: <br />Time (hours/week)
           </p>
-          <v-checkbox v-model="showLabel" 
-          @change="showLabelChange" label="Show Labels"></v-checkbox>
+          <v-checkbox
+            v-model="showLabel"
+            @change="showLabelChange"
+            label="Show Labels"
+          ></v-checkbox>
         </v-col>
       </v-row>
       <v-row class="my-1" justify="center">
@@ -491,7 +494,7 @@ export default {
       chartOptions: {
         responsive: true,
         maintainAspectRatio: true,
-        aspectRatio: 1,
+        aspectRatio: this.getAspectRatio(),
         borderColor: "#80fffff",
         borderWidth: 0.25,
         scales: {
@@ -608,6 +611,13 @@ export default {
     this.editedItem = Object.assign({}, this.defaultItem);
   },
   methods: {
+    getAspectRatio() {
+      if (window.innerWidth < 500) {
+        return 0.6;
+      } else {
+        return 1;
+      }
+    },
     calculateTotalHours() {
       this.totalHours = this.tableData.reduce(
         (acc, item) => acc + item.time,
